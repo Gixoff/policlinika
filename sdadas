@@ -1,0 +1,33 @@
+Doctor = ['Терапевт', 'Кардиолог', 'Окулист']
+Dates = {'24.12.25':['10:00', '12:30', '15:00', '17:30', '19:00', '21:30'],
+         '25.12.25':['10:00', '12:30', '15:00', '17:30', '19:00', '21:30'],
+         '26.12.25':['10:00', '12:30', '15:00', '17:30', '19:00', '21:30'],
+         '27.12.25':['10:00', '12:30', '15:00', '17:30', '19:00', '21:30']}
+
+pon = 0
+
+while pon < 1:
+    def wrach():
+        str(input(f"Вот список врачей к которым вы можете записаться{Doctor}:"))
+    def data():
+        str(input(f"Список дат на котрые вы можете записаться{Dates}:"))
+    def fio():
+        str(input("Укажите ваш ФИО:"))
+    def email():
+        str(input("Укажите ваш Email:"))
+    def nomer():
+        str(input("Укажите ваш номер телефона:"))
+    def adress():
+        str(input("Укажите ваш адресс проживания:"))
+    def polis():
+        str(input("Укажите ваш полис:"))
+
+    b = f'Запись'
+    with open(b, 'x') as file:
+        file.writelines(wrach())
+        file.writelines(data())
+        file.writelines(fio())
+        file.writelines(email())
+        file.writelines(nomer())
+        file.writelines(adress())
+        file.writelines(polis())
