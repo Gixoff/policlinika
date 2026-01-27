@@ -1,0 +1,89 @@
+import tkinter as tk
+from tkinter import ttk
+
+
+window = tk.Tk()
+window.geometry('500x500')
+
+
+Doctor = ['Терапевт', 'Кардиолог', 'Окулист']
+
+
+Dates = [
+    '24.12.25',
+    '25.12.25',
+    '26.12.25',
+    '27.12.25'
+]
+times = ['10:00', '12:30', '15:00', '17:30', '19:00', '21:30']
+
+
+# Хранилище занятых слотов: множество пар (дата, время)
+booked_slots = set()
+
+intro = tk.Label(window, text="Добро пожаловать в программу для записи к врачу")
+intro.pack()
+
+labl = tk.Label(window, text="Вот список врачей, к которым вы можете записаться:")
+labl.pack()
+
+wrachvar = ttk.Combobox(values=Doctor)
+wrachvar.pack()
+
+labl1 = tk.Label(window, text="Список дат, на которые вы можете записаться:")
+labl1.pack()
+
+ddate = ttk.Combobox(values=Dates)
+ddate.pack()
+
+labl1_5 = tk.Label(window, text="Вот список времени, на которое вы можете записаться:")
+labl1_5.pack()
+
+
+tmaentr = ttk.Combobox(values=times)
+tmaentr.pack()
+
+labl3 = tk.Label(window, text="Укажите ваше ФИО:")
+labl3.pack()
+
+fio = tk.Entry(window)
+fio.pack()
+
+lebl4 = tk.Label(window, text="Укажите ваш Email:")
+lebl4.pack()
+
+email = tk.Entry(window)
+email.pack()
+
+labl5 = tk.Label(window, text="Укажите ваш номер телефона:")
+labl5.pack()
+
+nomer = tk.Entry(window)
+nomer.pack()
+
+labl6 = tk.Label(window, text="Укажите ваш адрес проживания:")
+labl6.pack()
+
+adress = tk.Entry(window)
+adress.pack()
+
+labl7 = tk.Label(window, text="Укажите ваш полис:")
+labl7.pack()
+
+polis = tk.Entry(window)
+polis.pack()
+
+def zapisch():
+    # Получаем данные из полей
+    doctor = wrachvar.get()
+    date = ddate.get()
+    timer = tmaentr.get()
+    full_name = fio.get().strip()
+    email_addr = email.get().strip()
+    phone_number = nomer.get().strip()
+    address = adress.get().strip()
+    policy = polis.get().strip()
+
+    # Проверяем, что обязательные поля заполнены
+    if not full_name or not doctor or not date or not timer:
+        lablend.config(text="Заполните
