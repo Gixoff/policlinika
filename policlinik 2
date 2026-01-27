@@ -70,6 +70,78 @@ adress.pack()
 labl7 = tk.Label(window, text="Укажите ваш полис:")
 labl7.pack()
 
+import tkinter as tk
+from tkinter import ttk
+
+
+window = tk.Tk()
+window.geometry('500x500')
+
+
+Doctor = ['Терапевт', 'Кардиолог', 'Окулист']
+
+
+Dates = [
+    '24.12.25',
+    '25.12.25',
+    '26.12.25',
+    '27.12.25'
+]
+times = ['10:00', '12:30', '15:00', '17:30', '19:00', '21:30']
+
+
+# Хранилище занятых слотов: множество пар (дата, время)
+booked_slots = set()
+
+intro = tk.Label(window, text="Добро пожаловать в программу для записи к врачу")
+intro.pack()
+
+labl = tk.Label(window, text="Вот список врачей, к которым вы можете записаться:")
+labl.pack()
+
+wrachvar = ttk.Combobox(values=Doctor)
+wrachvar.pack()
+
+labl1 = tk.Label(window, text="Список дат, на которые вы можете записаться:")
+labl1.pack()
+
+ddate = ttk.Combobox(values=Dates)
+ddate.pack()
+
+labl1_5 = tk.Label(window, text="Вот список времени, на которое вы можете записаться:")
+labl1_5.pack()
+
+
+tmaentr = ttk.Combobox(values=times)
+tmaentr.pack()
+
+labl3 = tk.Label(window, text="Укажите ваше ФИО:")
+labl3.pack()
+
+fio = tk.Entry(window)
+fio.pack()
+
+lebl4 = tk.Label(window, text="Укажите ваш Email:")
+lebl4.pack()
+
+email = tk.Entry(window)
+email.pack()
+
+labl5 = tk.Label(window, text="Укажите ваш номер телефона:")
+labl5.pack()
+
+nomer = tk.Entry(window)
+nomer.pack()
+
+labl6 = tk.Label(window, text="Укажите ваш адрес проживания:")
+labl6.pack()
+
+adress = tk.Entry(window)
+adress.pack()
+
+labl7 = tk.Label(window, text="Укажите ваш полис:")
+labl7.pack()
+
 polis = tk.Entry(window)
 polis.pack()
 
@@ -86,4 +158,48 @@ def zapisch():
 
     # Проверяем, что обязательные поля заполнены
     if not full_name or not doctor or not date or not timer:
-        lablend.config(text="Заполните
+        lablend.config(text="Заполните все обязательные поля!", fg="red")
+        return
+
+    # Формируем ключ слота (дата + время)
+    slot_key = (date, timer)
+
+    # Проверяем, занят ли слот
+    if slot_key in booked_slots:
+        lablend.config(text="Это время уже занято! Выберите другое.", fg="red")
+        return
+
+    # Если слот свободен — добавляем его в занятые
+    booked_slots.add(slot_key)
+
+    # Формируем информацию для записи
+    info = f'''Запись ко врачу
+_______________________
+Врач: {doctor}
+Дата: {date}
+Время: {timer}
+ФИО: {full_name}
+Почта: {email_addr}
+Номер: {phone_number}
+Адрес: {address}
+Полис: {policy}
+'''
+
+    # Создаём имя файла (используем ФИО и дату, заменяем пробелы на подчёркивания)
+    file_name = f"Запись_{full_name.replace(' ', '_')}_{date}.txt"
+
+    # Записываем в файл
+    try:
+        with open(file_name, 'w', encoding='utf-8') as file:
+            file.write(info)
+        lablend.config(text='Вы успешно записались!', fg='green')
+    except Exception as e:
+        lablend.config(text=f"Ошибка при записи: {e}", fg="red")
+
+zapis = tk.Button(window, text="Записаться", command=zapisch)
+zapis.pack()
+
+lablend = tk.Label(window, text="")
+lablend.pack()
+
+window.mainloop()
