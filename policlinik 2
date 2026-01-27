@@ -1,14 +1,13 @@
-
-
 import tkinter as tk
 from tkinter import ttk
 
 
 window = tk.Tk()
-window.geometry('500x500')
+window.geometry('1000x1000')
 
 
 Doctor = ['Терапевт', 'Кардиолог', 'Окулист']
+
 
 
 Dates = [
@@ -20,17 +19,24 @@ Dates = [
 times = ['10:00', '12:30', '15:00', '17:30', '19:00', '21:30']
 
 
-# Хранилище занятых слотов: множество пар (дата, время)
+
 booked_slots = set()
 
 intro = tk.Label(window, text="Добро пожаловать в программу для записи к врачу")
 intro.pack()
+
 
 labl = tk.Label(window, text="Вот список врачей, к которым вы можете записаться:")
 labl.pack()
 
 wrachvar = ttk.Combobox(values=Doctor)
 wrachvar.pack()
+
+prichina = tk.Label(window, text='Укажите причину похода ко врачу:')
+prichina.pack()
+
+prichina_wr = tk.Text(window, height=11, width=22)
+prichina_wr.pack()
 
 labl1 = tk.Label(window, text="Список дат, на которые вы можете записаться:")
 labl1.pack()
@@ -75,8 +81,19 @@ labl7.pack()
 polis = tk.Entry(window)
 polis.pack()
 
+def zhaloba_send():
+    accept_zhaloba.config(text="Мы обязательно рассмотрим вашу жалобу")
+
+zhalobi = tk.Text(window, height=4.2)
+
+zhaloba_button = tk.Button(window, text = "отправить жалобу", command= zhaloba_send)
+
+accept_zhaloba = tk.Label(window, text = "Поле для жалоб")
+
+
+
 def zapisch():
-    # Получаем данные из полей
+
     doctor = wrachvar.get()
     date = ddate.get()
     timer = tmaentr.get()
@@ -85,27 +102,29 @@ def zapisch():
     phone_number = nomer.get().strip()
     address = adress.get().strip()
     policy = polis.get().strip()
+    prichini = prichina_wr.get().strip()
 
-    # Проверяем, что обязательные поля заполнены
+
     if not full_name or not doctor or not date or not timer:
         lablend.config(text="Заполните все обязательные поля!", fg="red")
         return
 
-    # Формируем ключ слота (дата + время)
+
     slot_key = (date, timer)
 
-    # Проверяем, занят ли слот
+
     if slot_key in booked_slots:
         lablend.config(text="Это время уже занято! Выберите другое.", fg="red")
         return
 
-    # Если слот свободен — добавляем его в занятые
+
     booked_slots.add(slot_key)
 
-    # Формируем информацию для записи
+
     info = f'''Запись ко врачу
 _______________________
 Врач: {doctor}
+Причина: {prichini}
 Дата: {date}
 Время: {timer}
 ФИО: {full_name}
@@ -115,10 +134,10 @@ _______________________
 Полис: {policy}
 '''
 
-    # Создаём имя файла (используем ФИО и дату, заменяем пробелы на подчёркивания)
+
     file_name = f"Запись_{full_name.replace(' ', '_')}_{date}.txt"
 
-    # Записываем в файл
+
     try:
         with open(file_name, 'w', encoding='utf-8') as file:
             file.write(info)
@@ -129,7 +148,14 @@ _______________________
 zapis = tk.Button(window, text="Записаться", command=zapisch)
 zapis.pack()
 
+
+
 lablend = tk.Label(window, text="")
 lablend.pack()
+accept_zhaloba.pack()
+zhalobi.pack()
+zhaloba_button.pack()
+
+
 
 window.mainloop()
